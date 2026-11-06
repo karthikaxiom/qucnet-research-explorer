@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "inventory": {
+    "raw_jpg_images": 480,
+    "xml_records": 390,
+    "images_with_tirads": 349,
+    "images_missing_tirads": 131,
+    "tirads_image_distribution": {
+      "2": 42,
+      "3": 19,
+      "4a": 96,
+      "4b": 79,
+      "4c": 68,
+      "5": 45
+    }
+  },
+  "strict_roi": {
+    "roi_geometries": 440,
+    "recorded_case_ids": 291,
+    "splits": {
+      "train": {
+        "rois": 311,
+        "case_ids": 203,
+        "tirads_roi_distribution": {
+          "2": 33,
+          "3": 14,
+          "4a": 91,
+          "4b": 77,
+          "4c": 62,
+          "5": 34
+        }
+      },
+      "validation": {
+        "rois": 58,
+        "case_ids": 44,
+        "tirads_roi_distribution": {
+          "2": 7,
+          "3": 2,
+          "4a": 17,
+          "4b": 14,
+          "4c": 9,
+          "5": 9
+        }
+      },
+      "test": {
+        "rois": 71,
+        "case_ids": 44,
+        "tirads_roi_distribution": {
+          "2": 9,
+          "3": 4,
+          "4a": 18,
+          "4b": 16,
+          "4c": 15,
+          "5": 9
+        }
+      }
+    },
+    "case_id_overlap_between_splits": 0,
+    "patient_identity_independence_verified": false
+  },
+  "raw_image_duplicates": {
+    "raw_image_files": 480,
+    "distinct_file_sha256": 471,
+    "duplicate_groups": 6,
+    "files_in_duplicate_groups": 15,
+    "redundant_files": 9,
+    "cross_case_duplicate_groups": 2,
+    "cross_assigned_split_duplicate_groups": 0
+  },
+  "caveats": [
+    "TI-RADS grades are not pathology-confirmed malignancy diagnoses.",
+    "Recorded case-ID separation does not prove unique patient identities.",
+    "Raw-file duplicate screening is distinct from ROI-geometry deduplication.",
+    "No raw images, XML records, identifiable case IDs or predictions are included.",
+    "Source medical-image redistribution permission and privacy clearance are unresolved."
+  ],
+  "source_commit": "e848013b9ff943d816a8c90840255233a5ae7b8d",
+  "research_repository": "https://github.com/karthikaxiom/QCNN_Thyroid_Paper_Reproduction",
+  "source_file_sha256": {
+    "07_Results/exp_data_001/audit.json": "d4d1d8232f3d14025cc481df97fcc19449209d3de1adc92db3190f08debf8cf7",
+    "07_Results/phase13_roi_dataset/roi_dataset_distribution.json": "5682d1f099353485a6a3e93a9b4b43024282a35129bbe64c3e609e6c698203e8",
+    "07_Results/phase12_case_level_split/split_distribution.json": "66e0fea3c2841a0cc76c8f0165ba38e56d044a2950c57e58e3636e906e4c7386",
+    "07_Results/exp_duplicate_001/local_sha256/exact_raw_image_duplicates.json": "a2644549c3d26f7c3e1e3c739fe896122edcbba602c8adec773989330a5bf232",
+    "07_Results/phase7_reproducibility_audit.txt": "dd96dffdece6b1d5c23cb7f95e6bd1b4d12439ab0c4fd72028b599ece4059fd9"
+  }
+}

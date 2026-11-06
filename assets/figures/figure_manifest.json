@@ -1,0 +1,46 @@
+{
+  "source_commit": "e848013b9ff943d816a8c90840255233a5ae7b8d",
+  "scope": "Whitelisted derived research charts only; no raw medical imagery or individual predictions",
+  "figures": [
+    {
+      "file": "binary_confusion_matrix.png",
+      "source_path": "07_Results/phase16_binary_qucnet_evaluation/binary_confusion_matrix.png",
+      "sha256": "1dd2b768addad5f0f017cb62e65c1c6dde67d8f2e9d1e58755eebc89824c2fde"
+    },
+    {
+      "file": "binary_roc_curve.png",
+      "source_path": "07_Results/phase16_binary_qucnet_evaluation/binary_roc_curve.png",
+      "sha256": "59b2e1edb536f7024ed7badc082bb14f2b94bee3d6f880a06ea01ec12ff39e91"
+    },
+    {
+      "file": "binary_precision_recall_curve.png",
+      "source_path": "07_Results/phase16_binary_qucnet_evaluation/binary_precision_recall_curve.png",
+      "sha256": "291affa4183ee8b97f872c1d26379e6271308edd5e491704ad1938a82ba16a49"
+    },
+    {
+      "file": "phase9_test_confusion_matrix.png",
+      "source_path": "07_Results/phase9_paper_tirads_class_weighted/test_confusion_matrix.png",
+      "sha256": "a04f5c4d9aa379866707152b37c0a508391a591650a31b7d2e380c3b52425d5b"
+    },
+    {
+      "file": "phase10_test_confusion_matrix.png",
+      "source_path": "07_Results/phase10_classical_tirads_class_weighted/test_confusion_matrix.png",
+      "sha256": "44247292cddb93f8703c3d36e46266c7104eb76919eae637f7121f1b6e4daa2f"
+    },
+    {
+      "file": "phase9_training_accuracy_plot.png",
+      "source_path": "07_Results/phase9_paper_tirads_class_weighted/training_accuracy_plot.png",
+      "sha256": "ad89f04cc10dc551fbc8e9e9488d7bcdba9c2b8682aeda7577323ce47c2beb23"
+    },
+    {
+      "file": "phase10_training_accuracy_plot.png",
+      "source_path": "07_Results/phase10_classical_tirads_class_weighted/training_accuracy_plot.png",
+      "sha256": "68f587efde7b4f900f945b4fc28ee5a012c66210d440dd3a26da83fc0e71ed9b"
+    },
+    {
+      "file": "fig_08_matched_classifier_families_color.svg",
+      "source_path": "09_Output_images/README/fig_08_matched_classifier_families_color.svg",
+      "sha256": "3ccbc1446417965e484f03d8491d5c7c89a77097854690e887d52f91f4fc6a2d"
+    }
+  ]
+}

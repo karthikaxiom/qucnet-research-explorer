@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "research_repository": "https://github.com/karthikaxiom/QCNN_Thyroid_Paper_Reproduction",
+  "source_commit": "e848013b9ff943d816a8c90840255233a5ae7b8d",
+  "source_branch": "research/bn-recalibration-audit",
+  "source_file_sha256": {
+    "07_Results/phase16_binary_qucnet_evaluation/binary_evaluation_metrics.json": "3105145e1ea5b4c7aef5e1a9ffe07043b71d6968353e43c2e87013eb697767ac",
+    "07_Results/phase9_paper_tirads_class_weighted/test_metrics.json": "0370bb451769bc223b1e1d7b003baa0d8308803045f77d058c60a47085067e37",
+    "07_Results/phase10_classical_tirads_class_weighted/test_metrics.json": "3e302f5e42e51b5904946287831a50cf55440c5e89a9f133252431375dc97aa3",
+    "07_Results/phase12_case_level_split/split_distribution.json": "66e0fea3c2841a0cc76c8f0165ba38e56d044a2950c57e58e3636e906e4c7386",
+    "07_Results/phase13_roi_dataset/roi_dataset_distribution.json": "5682d1f099353485a6a3e93a9b4b43024282a35129bbe64c3e609e6c698203e8",
+    "07_Results/phase14_roi_categorical_baseline/evaluation_metrics.json": "ad8a8abba0ba0af643eeb6971a85586e4aae1de96b4187238c3f0fd3635ada26"
+  },
+  "data_policy": "Aggregate evidence only. No raw medical images, XML, case IDs, predictions, probabilities or checkpoints.",
+  "retraining_performed_by_app": false
+}
