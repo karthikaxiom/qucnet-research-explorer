@@ -2,7 +2,7 @@
 
 **An Interactive Architecture, Reproducibility and Evaluation-Audit Workbench for Quantum-Inspired Thyroid Ultrasound Classification**
 
-QuCNet Research Explorer is a standalone ** mini-project** that makes an existing, completed thyroid-ultrasound reproduction study understandable and auditable through an interactive Streamlit application. It presents verified **aggregate research evidence**, source-linked model architectures, interactive educational computations, and methodological limitations. The application **does not train models, classify uploaded medical images, provide diagnoses, or demonstrate quantum advantage**.
+QuCNet Research Explorer is a standalone **mini-project** that makes an existing, completed thyroid-ultrasound reproduction study understandable and auditable through an interactive Streamlit application. It presents verified **aggregate research evidence**, source-linked model architectures, interactive educational computations, and methodological limitations. The application **does not train models, classify uploaded medical images, provide diagnoses, or demonstrate quantum advantage**.
 
 ## Quick start
 
