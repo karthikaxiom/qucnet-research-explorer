@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.quantum.simulator import fixed_weights, simulate_patch
+from src.evidence.input_representations import ARCHITECTURE_LABELS, render_route
 
 st.set_page_config(page_title="Architecture Lab | QuCNet", page_icon="🧬", layout="wide")
 st.markdown("""
@@ -132,6 +133,8 @@ path = PATHWAYS[selected]
 st.markdown(f"**Evaluation context:** {path['context']}")
 st.markdown(f"**Recorded finding:** {path['result']}")
 st.link_button("Inspect original model source on GitHub", source_url(path["source"]), icon="🔗")
+with st.expander("Source ultrasound input and tensor stages", expanded=False):
+    render_route(st, ARCHITECTURE_LABELS[selected], source_commit)
 
 st.subheader("Step through the implementation")
 stages = path["stages"]
@@ -182,10 +185,10 @@ fig = go.Figure(go.Bar(x=[f"Z{idx}" for idx in range(4)], y=out,
 fig.update_layout(height=310, margin=dict(l=15,r=15,t=20,b=5),
                   yaxis=dict(range=[-1.10,1.10], title="Pauli-Z expectation (−1 to +1)"),
                   xaxis_title="Measured qubit", template="plotly_dark", showlegend=False)
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 st.caption("Values are expectation measurements in [−1, +1] — not classification probabilities or accuracy scores.")
 with st.expander("Show the two fixed rotation layers"):
-    st.dataframe(fixed_weights(), use_container_width=True,
+    st.dataframe(fixed_weights(), width="stretch",
                  column_config={str(i): st.column_config.NumberColumn(format="%.6f") for i in range(4)})
 
 st.divider()

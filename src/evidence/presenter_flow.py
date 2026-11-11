@@ -11,7 +11,7 @@ from typing import Mapping, Any
 
 
 @dataclass(frozen=True)
-class PanelStep:
+class ResearchStage:
     title: str
     section: str
     shown: str
@@ -26,124 +26,124 @@ class PanelStep:
 
 
 # Only relative, already inspected, file-backed source paths.
-STEPS: tuple[PanelStep, ...] = (
-    PanelStep(
-        "Why this research?", "Research question",
+STEPS: tuple[ResearchStage, ...] = (
+    ResearchStage(
+        "Research objective", "Research question",
         "A published QuCNet approach, followed by an independent local reconstruction and audit.",
-        "The original authors reported 97.63% binary accuracy on 127 images and 93.87% six-class accuracy on 98 images. Those are the authors' reported results, not our measurements.",
+        "The original authors reported 97.63% binary accuracy on 127 images and 93.87% six-class accuracy on 98 images. These are results reported by the authors, not measurements from this reconstruction.",
         "The research investigated whether the publicly recoverable data and described method supported comparable results.",
         "An independent reconstruction is useful even when it does not recover the published headline scores.",
-        "Start with the research question. State the two published percentages and their denominators, then immediately explain that our labels, samples and protocol are not identical. Do not imply we proved the authors wrong.",
-        "Did your experiment disprove the original paper?",
-        "No. The original and recovered tasks, inventories, labels and evaluation protocols are not directly equivalent. We document limitations of our reconstruction, not a numerical refutation.",
+        "I examined whether the published method could be reconstructed using the recoverable data and stated implementation details. The original paper's sample sets and labels were not available as an identical evaluation protocol.",
+        "Do these results contradict the original paper's reported accuracy?",
+        "No. The tasks, available records, labels and evaluation protocols differ. This study documents the reconstruction and its limitations; it is not a direct numerical refutation of the publication.",
         ("Research_Extension/ORIGINAL_PAPER_FULLTEXT_FIDELITY_AUDIT.md", "README.md"),
         "app.py",
     ),
-    PanelStep(
+    ResearchStage(
         "Recovering the dataset", "Dataset integrity",
         "Aggregate source composition and TI-RADS label coverage.",
         "480 JPG images and 390 XML records were recovered; 349 image records had a nonempty TI-RADS label and 131 did not.",
         "Data completeness and label provenance had to be audited before interpreting model scores.",
         "The binary endpoint was derived from TI-RADS suspicion groups, not pathology-confirmed malignancy.",
-        "Explain image count versus XML/case metadata count. Point out the missing labels and do not call the historical proxy a confirmed cancer diagnosis.",
+        "I first checked the recoverable images, XML records and TI-RADS labels. The missing-label count matters because the original binary outcomes cannot be interpreted as pathology-confirmed cancer diagnoses.",
         "Do the binary labels prove benign or malignant pathology?",
         "No. They are low-/high-suspicion proxies reconstructed from TI-RADS annotations; pathology confirmation is not established.",
         ("07_Results/exp_data_001/audit.json", "07_Results/phase7_reproducibility_audit.txt"),
         "pages/2_Dataset_and_Integrity.py",
     ),
-    PanelStep(
+    ResearchStage(
         "How QuCNet features are formed", "Architecture",
         "Phase 6: 128×128 grayscale → 2×2 patches → fixed four-qubit simulated circuit → 64×64×4 channels → dense binary classifier.",
         "PennyLane default.qubit uses four RX encodings, two fixed seeded RY/CNOT-ring layers and four Pauli-Z outputs per patch.",
         "The circuit is real simulated quantum feature mapping, but its parameters are fixed and it does not run on quantum hardware.",
         "A synthetic patch demo exposes the actual mathematical transformation without medical-image uploads or retraining.",
-        "Move through one or two architecture stages. Then change one synthetic pixel and show how the expectation values update. Call these circuit outputs, not classification predictions.",
-        "If it is quantum, why don't you show a live image diagnosis?",
-        "The mini-project's purpose is architecture and evidence auditing. The archived model is not clinically validated; we demonstrate the fixed circuit on synthetic input instead of presenting a diagnosis service.",
+        "I reconstructed the fixed, simulated four-qubit feature transformation described by the available source. In this workbench it is illustrated with synthetic values; the outputs are circuit expectations, not medical classifications.",
+        "Why does the architecture view use synthetic inputs rather than live ultrasound inference?",
+        "The application is designed for architecture and evaluation auditing. The archived model has no demonstrated clinical validity, so the circuit is illustrated on synthetic inputs rather than used for diagnostic predictions.",
         ("05_Source_Code/utilities/quantum_utils.py", "05_Source_Code/phase6_qucnet_model.py", "05_Source_Code/phase5_quantum_filter.py"),
         "pages/1_Interactive_Architecture_Lab.py",
     ),
-    PanelStep(
-        "What happened in the binary experiment?", "Historical results",
+    ResearchStage(
+        "Binary QuCNet evaluation", "Historical results",
         "Phase 16 binary QuCNet confusion matrix and linked metric cards.",
         "On a validation-selected historical 70-image holdout, accuracy was 38/70 = 54.29%, while precision was 32/57 = 56.14%; recall 82.05%, specificity 19.35%.",
         "The model detected 32/39 high-suspicion proxy cases but produced 25 false positives among 31 low-suspicion proxy cases.",
         "Accuracy and sensitivity alone can conceal severe class-specific errors; the historical holdout was used for checkpoint selection.",
-        "Point to TN=6, FP=25, FN=7, TP=32. Emphasize that 56.14% is PRECISION, not accuracy. Explain that this is not an untouched clinical test.",
-        "Is your accuracy 56.14% or 54.29%?",
+        "My recorded binary evaluation showed 38 correct classifications among 70 images: TN=6, FP=25, FN=7 and TP=32. Accuracy was 54.29%; the separate 56.14% figure was precision. This holdout was used during checkpoint selection.",
+        "How do the reported accuracy and precision differ?",
         "54.29% is the recorded accuracy (38/70). 56.14% is positive-class precision (32/57). They measure different quantities.",
         ("07_Results/phase16_binary_qucnet_evaluation/binary_evaluation_metrics.json", "05_Source_Code/phase6_train.py"),
         "pages/3_Experimental_Results_Lab.py",
     ),
-    PanelStep(
+    ResearchStage(
         "Six-class comparison", "Historical results",
         "Phase 9 paper-structured quantum-feature CNN versus Phase 10 classical grayscale CNN on the historical 70-image six-class comparison.",
         "Quantum accuracy 13/70 = 18.57%; classical accuracy 17/70 = 24.29%; majority reference 19/70 = 27.14%.",
         "The quantum reconstruction did not outperform the matched classical comparator in this historical comparison.",
         "The comparison motivates accuracy-gap analysis rather than a claim of quantum superiority.",
-        "Open the matched six-class bars and compare macro-F1 or balanced accuracy. Do not juxtapose these as if they shared the Phase 14 ROI test or the authors' original test set.",
-        "Why is your six-class score so much lower than the paper's?",
+        "I compared the six-class quantum-feature and grayscale models on the recorded historical image-level setting. Their results belong to this comparison, not to the separate Phase 14 ROI evaluation or the paper's original samples.",
+        "What limits the six-class comparison with the published result?",
         "The exact original samples, target provenance, normalization and some implementation details were not recoverable. Different methods and evaluations prevent a direct causal explanation of the difference.",
         ("07_Results/phase9_paper_tirads_class_weighted/test_metrics.json", "07_Results/phase10_classical_tirads_class_weighted/test_metrics.json"),
         "pages/3_Experimental_Results_Lab.py",
     ),
-    PanelStep(
+    ResearchStage(
         "Stricter dataset splitting", "Method integrity",
         "Recorded-case-ID-separated ROI dataset: 440 distinct ROI geometries from 291 recorded case IDs.",
         "There are 311 train ROIs/203 case IDs, 58 validation ROIs/44 case IDs, and 71 historical test ROIs/44 case IDs; recorded case overlap is zero.",
         "The stricter partition addresses a limitation in earlier image-level splitting, which shared some recorded case IDs across subsets.",
         "Case-ID separation improves the audit but does NOT prove distinct patients across identifiers.",
-        "Distinguish images, ROI crops, case IDs and patients. Explicitly state we cannot certify patient independence.",
-        "Does zero case-ID overlap mean your test is patient-independent?",
-        "No. We verified that recorded case IDs do not overlap. Different IDs were not independently verified as different patients.",
+        "I separated the ROI data by recorded case ID and checked for identifier overlap. That supports case-ID grouping, but the available information does not establish that different identifiers are different patients.",
+        "Does zero recorded case-ID overlap establish patient independence?",
+        "No. The recorded case IDs were separated, but the correspondence between IDs and distinct patient identities was not independently verified.",
         ("07_Results/phase12_case_level_split/split_distribution.json", "07_Results/phase13_roi_dataset/roi_dataset_distribution.json", "07_Results/phase11_case_annotation_audit/previous_split_leakage_report.txt"),
         "pages/2_Dataset_and_Integrity.py",
     ),
-    PanelStep(
-        "An important negative result", "Reliability",
+    ResearchStage(
+        "Phase 14: single-class prediction collapse", "Reliability",
         "Phase 14 strict classical ROI CNN predicted TI-RADS 3 for every 71 test ROIs and every 44 recorded test cases.",
         "Only 4/71 ROI predictions (5.63%) and 2/44 case predictions (4.55%) were correct.",
         "This is complete single-class prediction collapse in the Phase 14 classical ROI model, not a quantum-model accuracy.",
         "A classifier can appear to run correctly while failing to distinguish categories.",
-        "This is a strong audit result. Don't excuse it or attribute a proven single cause. Show that the code ran, but its predictions were not useful as a category discriminator.",
+        "The strict Phase 14 CNN completed evaluation, yet predicted TI-RADS 3 for every test ROI and case. I retained the 5.63% ROI and 4.55% case-level findings rather than treating completed execution as evidence of reliable classification.",
         "Did BatchNorm or padding definitely cause the collapse?",
         "No. The diagnostic changed outputs, but the studies do not isolate a unique causal mechanism for the original collapse.",
         ("07_Results/phase14_roi_categorical_baseline/evaluation_metrics.json", "07_Results/exp_bn_001/metrics.json"),
         "pages/4_Reliability_and_Accuracy_Gap.py",
     ),
-    PanelStep(
+    ResearchStage(
         "Matched classifier families", "Development-only controls",
         "Eight fixed-feature/classifier configurations: classical 64-D versus simulated quantum 64-D features under LR, RBF-SVM, random forest and 7-NN.",
         "The seed-42 fixed quantum random forest scored 63/203 = 31.03%, versus 54/203 = 26.60% for classical random forest; development majority was 57/203 = 28.08%.",
         "The quantum RF had the highest observed accuracy at that seed but still missed all 10 TI-RADS 3 cases.",
         "This is exploratory fivefold case-grouped out-of-fold analysis on training cases—not the original QuCNet CNN or an external clinical test.",
-        "When asked whether quantum won, say one seed and classifier had a higher observed score, but classwise failure and statistical uncertainty prevent superiority claims.",
+        "A fixed-quantum random forest scored higher in one development-fold comparison, but it missed all 10 TI-RADS 3 cases. That observation, alongside statistical uncertainty, does not establish quantum superiority.",
         "Did the fixed quantum random forest prove quantum advantage?",
         "No. The fixed circuit was a simulated feature map; the advantage at one fold assignment was exploratory and did not establish robust statistical or computational superiority.",
         ("07_Results/exp_models_001/metrics.json", "07_Results/exp_qmap_001/metrics.json"),
         "pages/3_Experimental_Results_Lab.py",
     ),
-    PanelStep(
-        "What changed under diagnostic checks?", "Reliability",
+    ResearchStage(
+        "Sensitivity to method and fold choices", "Reliability",
         "Repeated case-fold stability, BatchNorm running-statistics recalibration, preprocessing choices and feature fusion.",
         "Across five fold seeds, RF mean accuracies were 27.49% classical and 29.36% fixed quantum on the same 203 cases. BatchNorm validation accuracy changed from 2/58=3.45% to 11/58=18.97%, below 17/58=29.31% majority.",
         "Classifier ranking was fold-sensitive and minority-class failures persisted; recalibration altered predictions but did not rescue reliable performance.",
         "These studies improve understanding, not clinical classification accuracy; five seeds are correlated repeats of the same cases.",
-        "Show the stability chart or BatchNorm tab. Mention fusion adds one correct case (46 vs 45/203) with McNemar p=1.00; a measured change isn't always meaningful.",
+        "I examined the saved five-seed, BatchNorm, preprocessing and fusion analyses as separate diagnostics. Fusion changed the correct-case count from 45 to 46 of 203, with McNemar p=1.00, so a meaningful improvement was not established.",
         "If preprocessing changes the score, why not choose the highest?",
         "These are exploratory development comparisons with trade-offs and uncertainty, not an independently validated hyperparameter search. For example direct resizing distorts lesion aspect ratio.",
         ("07_Results/exp_stability_001/metrics.json", "07_Results/exp_bn_001/metrics.json", "07_Results/exp_fusion_001/metrics.json", "07_Results/exp_preproc_001/metrics.json"),
         "pages/4_Reliability_and_Accuracy_Gap.py",
     ),
-    PanelStep(
-        "What the mini-project contributes", "Software contribution",
-        "QuCNet Research Explorer: source-backed architecture diagrams, synthetic circuit calculator, dataset integrity analysis, archived result exploration and guided evidence walkthrough.",
+    ResearchStage(
+        "Software contribution: QuCNet Research Explorer", "Software contribution",
+        "QuCNet Research Explorer integrates source-backed architecture explanations, a synthetic circuit calculator, dataset integrity summaries, archived experimental comparisons and a research-evidence review.",
         "The app runs on saved aggregate evidence without TensorFlow, PennyLane, raw medical files, checkpoints or model training at runtime.",
         "The contribution is an interactive reproducibility and evaluation-audit workbench, not a new AI classifier or medical diagnostic system.",
         "It makes a complex, imperfect research record understandable, traceable and reviewable in a live demonstration.",
-        "Conclude with software architecture, source provenance, test suite, separate repo and limitations. Offer to open one exact research source for a panel member.",
-        "What is new here if your models were trained earlier?",
-        "The new work is the verified evidence-integration pipeline, interactive architecture/circuit education, comparison and reliability modules, source traceability, tests and guided presenter workflow. The app itself does not retrain or improve QuCNet.",
+        "I developed a separate Streamlit workbench for examining the completed research record. Its contribution is evidence integration, interaction and traceability; the previously trained models and their recorded results remain unchanged.",
+        "What does the separate Streamlit application contribute?",
+        "The software contribution is the aggregate-evidence pipeline, interactive architecture and circuit analysis, experimental-comparison views, integrity checks and source traceability. It does not retrain QuCNet or improve historical classifier accuracy.",
         ("Research_Extension/FINAL_RESEARCH_VERIFICATION_MATRIX.md", "Research_Extension/MASTER_VERIFIED_RESULTS.csv"),
         "app.py",
     ),
@@ -203,9 +203,9 @@ def validate_evidence(hist: Mapping[str, Any], ext: Mapping[str, Any], dataset: 
 def speaking_script() -> str:
     """A printable summary based only on the reviewed aggregate evidence."""
     lines = [
-        "QUCNET RESEARCH EXPLORER — PANEL DEMONSTRATION NOTES",
+        "QUCNET RESEARCH EXPLORER — RESEARCH EVIDENCE SUMMARY",
         "Independent architecture, reproducibility and evaluation-audit workbench",
-        "All outcomes are historical saved evidence, except explicitly synthetic demonstrations.",
+        "Experimental outcomes come from archived research; synthetic calculations are identified separately.",
         "",
     ]
     for index, slide in enumerate(STEPS, 1):
@@ -215,8 +215,8 @@ def speaking_script() -> str:
             "INTERPRETATION: " + slide.interpretation,
             "FINDING: " + slide.finding,
             "WHY IT MATTERS: " + slide.significance,
-            "PRESENTATION NOTES: " + slide.speaker_notes,
-            "EXAMINER QUESTION: " + slide.question,
+            "RESEARCHER COMMENTARY: " + slide.speaker_notes,
+            "RESEARCH QUESTION: " + slide.question,
             "RESPONSE: " + slide.answer,
             "SOURCE FILES: " + "; ".join(slide.source_paths),
             "",

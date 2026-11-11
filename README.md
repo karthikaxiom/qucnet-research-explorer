@@ -99,6 +99,14 @@ These research pathways are **not interchangeable**:
 4. **Phase 14 ROI CNN:** 64 × 64 grayscale ROI → training-only augmentation → convolution/BatchNorm/ReLU and pooling/dropout → global average pooling → Dense 64 → six-class Softmax.
 5. **Later development extension:** classical 64-D versus fixed simulated quantum 64-D features with LR, RBF-SVM, RF and 7-NN. This is **not** the original QuCNet CNN.
 
+## Ultrasound input representations
+
+The mini-project provides source-linked **schematics**, not clinical ultrasound sample reproductions. The original paper illustrates thyroid ultrasound examples in **Figures 1–2** ([IEEE Access, DOI 10.1109/ACCESS.2024.3367806](https://doi.org/10.1109/ACCESS.2024.3367806)). Those published images are referenced, not redistributed.
+
+The **Phase 6** full-image binary pathway uses 128×128 grayscale inputs, non-overlapping 2×2 patches and a fixed simulated four-qubit filter producing a 64×64×4 feature tensor before a dense binary classifier. **Phase 9** uses the quantum features with a separate six-class CNN; **Phase 10** instead uses 64×64 resized grayscale input in a classical six-class CNN. **Phase 14** uses expert-annotation-derived 64×64 lesion crops and a different BatchNorm ROI CNN. The later fixed 64-D feature-map study is development-only and not a new QuCNet CNN evaluation. The pathways and their protocols are not interchangeable.
+
+The public app does not copy raw DDTI ultrasound JPG/XML files, annotated ROI previews, medical case identifiers, checkpoints or patient-level predictions. Image redistribution rights and privacy clearance have not been established, and recorded case-ID separation does not prove patient independence.
+
 ## Data integrity, limitations and ethics
 
 - The recovered inventory contained **480 JPG images**, **390 XML records**, **349 images with nonempty TI-RADS labels** and **131 without**. The strictly processed ROI study had **440 ROIs from 291 recorded case IDs**, partitioned into train 311/203, validation 58/44 and historical test 71/44 (ROIs/case IDs).
@@ -123,7 +131,7 @@ An **optional** `Dockerfile` is included for a self-hosted demonstration or an a
 
 ## Presentation and interpretation
 
-A suitable demonstration sequence is **research question → Phase 6 architecture → synthetic four-qubit calculation → dataset integrity → archived confusion matrices and classifiers → reliability/accuracy-gap analysis → evidence interpretation**. Explain that the interactive computations are educational and separate from historical trained-model results. The new contribution is the **traceable workbench**, not a new QuCNet accuracy result.
+The research record can be reviewed in the sequence **research question → Phase 6 architecture → synthetic four-qubit calculation → dataset integrity → archived confusion matrices and classifiers → reliability/accuracy-gap analysis → evidence interpretation**. Explain that the interactive computations are educational and separate from historical trained-model results. The new contribution is the **traceable workbench**, not a new QuCNet accuracy result.
 
 ## Research reference
 
@@ -131,4 +139,6 @@ Original QuCNet research: **IEEE Access (2024)**, DOI **[10.1109/ACCESS.2024.336
 
 ---
 
-**Status:** Local six-module implementation has been demonstrated in VS Code/Streamlit; automated tests have passed on the local project. Public GitHub publication, independent cloud deployment and full manual UI/privacy checks should not be marked complete until verified separately.
+**Status (November 2026):** The independent mini-project was published to GitHub and its Streamlit Community Cloud Research Overview was observed live. The full six-page cloud interaction audit and post-enhancement figure/privacy review are still pending. Local source-evidence verification and automated tests are separate from clinical validation.
+
+For the optional historical console screenshot, supplementary aggregate figure gallery and evidence-to-module coverage register, see [`EVIDENCE_ENRICHMENT.md`](EVIDENCE_ENRICHMENT.md). The source research repository remains frozen and is never run by the public application.

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "scope": "Owner-supplied, manually cropped historical evaluation console; no medical images or identifiers; chart-like evidence only",
+  "figures": [
+    {
+      "file": "phase6_console_evidence.png",
+      "sha256": "6edc3eea2d0a6b7a1ceb06837b3131ff49d0d8d91fec18d45e209f331afac4a2",
+      "source_path": "09_Output_images/phase6_evaluation_result.png",
+      "processing": "Cropped from owner-supplied original screenshot; rounded console metrics preserved; historical run identifier not independently established."
+    }
+  ]
+}

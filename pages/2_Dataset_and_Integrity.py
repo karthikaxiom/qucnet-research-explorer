@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -9,6 +10,9 @@ import plotly.graph_objects as go
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from src.evidence.input_representations import render_dataset_input_section
 SNAPSHOT = ROOT / "data" / "dataset_integrity_snapshot.json"
 LABEL_ORDER = ["2", "3", "4a", "4b", "4c", "5"]
 COLORS = ["#36B8B5", "#70A1D7", "#8875DC", "#DD83AA", "#E7AF66", "#D56D75"]
@@ -44,7 +48,7 @@ st.info("All figures use saved, aggregate research evidence. No medical images, 
 try:
     evidence = load_snapshot()
 except (FileNotFoundError, json.JSONDecodeError, KeyError) as exc:
-    st.error("The verified dataset snapshot is missing or invalid. Run the Step 9 importer first.")
+    st.error("The archived dataset-audit snapshot is missing or invalid. This section cannot display unverified evidence.")
     st.code(".\\.venv\\Scripts\\python.exe src\\evidence\\build_dataset_snapshot.py", language="powershell")
     st.caption(f"Technical detail: {type(exc).__name__}")
     st.stop()
@@ -59,6 +63,10 @@ m1.metric("Recovered JPG images", f"{inventory['raw_jpg_images']:,}")
 m2.metric("XML records", f"{inventory['xml_records']:,}")
 m3.metric("Images with TI-RADS", f"{inventory['images_with_tirads']:,}")
 m4.metric("Missing TI-RADS", f"{inventory['images_missing_tirads']:,}")
+
+with st.expander("How thyroid ultrasound images were processed", expanded=True):
+    render_dataset_input_section(st, sha)
+st.divider()
 
 st.markdown("### A. Label coverage and six-category composition")
 a, b = st.columns([1.4, 1])
@@ -87,6 +95,8 @@ with b:
     st.plotly_chart(style_chart(fig), width="stretch")
 
 st.caption("These counts describe 480 recovered source JPG records. They do not represent 480 independently verified patients.")
+st.info("The original QuCNet study describes 478 DDTI images and 399 medical cases. The recovered archive has 480 JPG files and 390 XML records. The image inventories and clinical-label correspondence are not established as identical.")
+st.page_link("pages/4_Reliability_and_Accuracy_Gap.py", label="Inspect published-versus-recovered dataset correspondence")
 st.link_button("Inspect the original TI-RADS inventory audit", source_url(sha, "07_Results/phase7_reproducibility_audit.txt"))
 
 st.divider()

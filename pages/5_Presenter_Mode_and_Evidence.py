@@ -1,4 +1,4 @@
-"""Guided UVCE mini-project presentation from frozen, aggregate QuCNet evidence."""
+"""Source-linked evidence and interpretation of the recorded QuCNet research."""
 from __future__ import annotations
 
 import json
@@ -38,7 +38,7 @@ provenance = load_json("provenance.json")
 try:
     validate_evidence(hist, ext, dataset, provenance)
 except (KeyError, ValueError, TypeError) as exc:
-    st.error(f"Source-evidence consistency check failed: {exc}. Presenter Mode cannot display unverified results.")
+    st.error(f"Source-evidence consistency check failed: {exc}. Unverified results cannot be displayed.")
     st.stop()
 
 COMMIT = provenance["source_commit"]
@@ -55,9 +55,11 @@ def jump(index: int) -> None:
     st.session_state.presenter_jump = new_position
 
 
+from src.evidence.visual_enhancements import render_evidence_register
+
 st.title("Evidence & Interpretation")
-st.caption("A guided, source-linked explanation of the actual research and the mini-project software contribution")
-st.info("Live demonstration is based on archived aggregate evidence. Synthetic quantum inputs and hypothetical metric scenarios are educational calculations—not new clinical predictions or new model accuracy results.")
+st.caption("A source-linked account of the research methods, recorded findings, limitations and software implementation")
+st.info("Experimental findings are drawn from saved aggregate evidence. Synthetic circuit calculations and hypothetical metric scenarios are separate from historical model evaluations and are not medical predictions.")
 
 with st.sidebar:
     st.markdown("**Research review**")
@@ -66,7 +68,7 @@ with st.sidebar:
 left, mid, right = st.columns([2.4, 1, 1])
 with left:
     index = st.selectbox(
-        "Jump to a demonstration stage",
+        "Select a research section",
         range(len(STEPS)),
         format_func=lambda k: f"{k+1:02d} · {STEPS[k].title}",
         index=st.session_state.presenter_position,
@@ -74,21 +76,21 @@ with left:
         on_change=lambda: st.session_state.__setitem__("presenter_position", st.session_state.presenter_jump),
     )
 with mid:
-    st.metric("Current stage", f"{st.session_state.presenter_position+1:02d} / {len(STEPS):02d}")
+    st.metric("Section", f"{st.session_state.presenter_position+1:02d} / {len(STEPS):02d}")
 with right:
     st.metric("Source integrity", "Verified", help="Core displayed metrics were checked against the local source snapshots at the recorded research commit.")
 
 position = st.session_state.presenter_position
 slide = STEPS[position]
-st.progress((position + 1) / len(STEPS), text=f"Research journey · {slide.section}")
+st.progress((position + 1) / len(STEPS), text=f"Research record · {slide.section}")
 
 back, next_col, reset_col = st.columns([1, 1, 1])
 with back:
-    st.button("← Previous stage", on_click=jump, args=(position-1,), disabled=position == 0, width="stretch")
+    st.button("← Previous section", on_click=jump, args=(position-1,), disabled=position == 0, width="stretch")
 with next_col:
-    st.button("Next stage →", on_click=jump, args=(position+1,), disabled=position == len(STEPS)-1, type="primary", width="stretch")
+    st.button("Next section →", on_click=jump, args=(position+1,), disabled=position == len(STEPS)-1, type="primary", width="stretch")
 with reset_col:
-    st.button("Restart walkthrough", on_click=jump, args=(0,), width="stretch")
+    st.button("Return to beginning", on_click=jump, args=(0,), width="stretch")
 
 st.divider()
 st.subheader(f"{position+1:02d}. {slide.title}")
@@ -109,15 +111,15 @@ with c2:
 st.warning("Scientific boundary: the historical phases have different evaluation protocols. Source labels are not verified pathology diagnoses; this app cannot claim clinical utility or quantum superiority.")
 
 st.divider()
-show_notes = st.toggle("Show discussion notes", value=False)
+show_notes = st.toggle("Researcher’s commentary", value=False)
 if show_notes:
-    st.markdown("#### Speaking notes")
+    st.markdown("#### Researcher’s commentary")
     st.write(slide.speaker_notes)
 
-with st.expander("Technical discussion question", expanded=False):
-    st.markdown("**Question for discussion:**")
+with st.expander("Methodological question and evidence", expanded=False):
+    st.markdown("**Question:**")
     st.write(slide.question)
-    st.markdown("**Evidence-based explanation:**")
+    st.markdown("**Interpretation:**")
     st.write(slide.answer)
 
 with st.expander("Inspect exact original research evidence", expanded=False):
@@ -129,23 +131,25 @@ if (ROOT / slide.module_path).is_file() and slide.module_path != "app.py":
     st.page_link(slide.module_path, label="Open the relevant interactive module", icon="🔎")
 
 st.divider()
-st.markdown("#### Technical discussion topics")
+st.markdown("#### Methodological questions")
 question_index = st.selectbox(
-    "Choose a topic to practise",
+    "Select an evidence question",
     range(len(STEPS)),
     format_func=lambda i: f"{STEPS[i].section} · {STEPS[i].question}",
     key="rehearsal_question",
 )
 st.write(f"**Question:** {STEPS[question_index].question}")
-if st.checkbox("Show evidence-based explanation", key="reveal_answer"):
+if st.checkbox("Show interpretation", key="reveal_answer"):
     st.success(STEPS[question_index].answer)
     st.caption("Evidence: " + ", ".join(STEPS[question_index].source_paths))
 
 st.download_button(
-    "Export research briefing (.txt)",
+    "Export evidence summary (.txt)",
     data=speaking_script().encode("utf-8"),
-    file_name="qucnet_research_briefing.txt",
+    file_name="qucnet_evidence_summary.txt",
     mime="text/plain",
     help="Contains only aggregate research explanations and source paths; no medical records.",
 )
 st.caption("Prepared from frozen saved evidence. Not a clinical decision-support or model-training interface.")
+
+render_evidence_register(st, COMMIT)

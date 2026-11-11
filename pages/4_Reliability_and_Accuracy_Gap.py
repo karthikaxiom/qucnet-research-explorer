@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.evidence.dataset_correspondence import render_dataset_correspondence
 from src.evidence.reliability_math import (  # noqa: E402
     LABELS, classwise_from_confusion, development_scores,
     validate_bn_conditions,
@@ -52,10 +53,13 @@ def style(fig, height=390):
 hist = load_json("data/research_snapshot.json")
 ext = load_json("data/extension_snapshot.json")
 prov = load_json("provenance.json")
+dataset_snapshot = load_json("data/dataset_integrity_snapshot.json")
 commit = prov["source_commit"]
-if ext["source_commit"] != commit:
+if ext["source_commit"] != commit or dataset_snapshot["source_commit"] != commit:
     st.error("Research-source commit mismatch. Evidence display is blocked.")
     st.stop()
+
+from src.evidence.visual_enhancements import render_phase14_figures
 
 st.title("Reliability & Accuracy-Gap Analysis")
 st.caption("Source fidelity · class-specific failures · controlled diagnostics · scientific boundaries")
@@ -77,7 +81,9 @@ comparison, failure, diagnostic, boundaries = st.tabs([
 
 with comparison:
     st.subheader("Why the published accuracy cannot be compared directly")
-    st.write("The source paper reported **97.63%** binary tumour classification on **127 images** and **93.87%** six-category suspicious-level classification on **98 images**. Our reconstruction and later audits used different recoverable labels, sample inventories, processing, simulation and evaluation protocols.")
+    st.write("The source paper reported **97.63%** binary tumour classification on **127 images** and **93.87%** six-category suspicious-level classification on **98 images**. The reconstructed study and later audits used different recoverable labels, sample inventories, processing, simulation and evaluation protocols.")
+    render_dataset_correspondence(st, dataset_snapshot, hist, commit)
+    st.divider()
     aspects = {
         "Target labels": (
             "Tumour classification and six-category suspicion grading were reported.",
@@ -137,6 +143,7 @@ with failure:
     c2.metric("Correct case predictions", "2 / 44")
     st.warning("This is the *classical Phase 14 ROI CNN* failure—not a quantum-model result. The recorded outcome does not isolate its cause.")
     evidence_link("07_Results/phase14_roi_categorical_baseline/evaluation_metrics.json", "Inspect strict ROI evaluation")
+    render_phase14_figures(st, ROOT, commit)
     st.divider()
     st.subheader("Later matched-classifier classwise sensitivity")
     st.caption("All options below share 203 recorded training case IDs in fivefold development OOF evaluation; they are not a new untouched test cohort.")
@@ -219,7 +226,7 @@ with diagnostic:
     evidence_link("07_Results/exp_bn_001/metrics.json", "Inspect BatchNorm diagnostic evidence")
 
 with boundaries:
-    st.subheader("Evidence discipline: what can we actually claim?")
+    st.subheader("Evidence-supported conclusions and limitations")
     st.markdown("#### Verified observations")
     st.success("The public research reconstruction did not match the publication's data/label/protocol details; earlier image splits had recorded-case overlaps; the strict ROI CNN collapsed to a single class; classwise failures persisted in later development comparisons.")
     st.markdown("#### Possible explanations, not independently proven causes")
@@ -227,8 +234,8 @@ with boundaries:
     st.markdown("#### Conclusions the research does not establish")
     st.error("No pathology-confirmed diagnostic accuracy, no quantum computational advantage, no clinical deployment readiness, no uniquely verified patients and no compatible independently validated six-class external cohort.")
     st.divider()
-    st.markdown("**Panel question:** *If the original paper reported more than 90% accuracy, why are your numbers low?*")
-    st.write("**Research-grounded answer:** The original and recovered experiments differ in label provenance, source inventory, some implementation details and evaluation protocols. The recovered models performed poorly in their own documented evaluations; the audits identified limitations without proving one cause. We therefore present a transparent methodological investigation, not an exact head-to-head replication of the authors' original test.")
+    st.markdown("**Research question:** *Why did the reconstructed experiments yield lower accuracies than the published study?*")
+    st.write("**Evidence-based interpretation:** The published and reconstructed studies differ in label provenance, data inventory, implementation choices and evaluation protocols. The reconstructed models achieved low accuracy under their respective documented settings. The audit identifies limitations but does not establish a single causal explanation, nor does it reproduce the authors' original test conditions.")
     evidence_link("Research_Extension/FINAL_RESEARCH_VERIFICATION_MATRIX.md", "Read verified research-evidence matrix")
     evidence_link("Research_Extension/ORIGINAL_PAPER_FULLTEXT_FIDELITY_AUDIT.md", "Read full-text method-fidelity audit")
 

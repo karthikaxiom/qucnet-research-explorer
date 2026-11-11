@@ -1,0 +1,90 @@
+{
+  "source_commit": "e848013b9ff943d816a8c90840255233a5ae7b8d",
+  "scope": "Whitelisted aggregate charts only; visual publication review still required",
+  "figures": [
+    {
+      "file": "fig_01_experiment_accuracy_comparison.png",
+      "source_path": "09_Output_images/README/fig_01_experiment_accuracy_comparison.png",
+      "sha256": "e1bf607742a8dae5109d9d35612dd577af5a3ee7978fa94c655ed28cc241574b",
+      "caption": "Recorded experimental accuracies; separate protocols and denominators"
+    },
+    {
+      "file": "fig_02_audited_dataset_split.png",
+      "source_path": "09_Output_images/README/fig_02_audited_dataset_split.png",
+      "sha256": "74fb6f4da669d8f17d10ab575b8895abcc19a738e59b74b3fd8f1b90396daa09",
+      "caption": "Recorded case-ID / ROI separation; not proof of distinct patients"
+    },
+    {
+      "file": "fig_03_phase14_prediction_collapse.png",
+      "source_path": "09_Output_images/README/fig_03_phase14_prediction_collapse.png",
+      "sha256": "3dde7b754383f1af14efc87799a49e06ff194ea9a971aecf51382a220ad92435",
+      "caption": "Single-class TI-RADS 3 prediction collapse, not binary QuCNet"
+    },
+    {
+      "file": "phase14_roi_confusion_matrix.png",
+      "source_path": "07_Results/phase14_roi_categorical_baseline/roi_confusion_matrix.png",
+      "sha256": "78e5b60cef70c3d2e68998d6c97f491013ad1ef04bc88168e2f40ed97af60052",
+      "caption": "Strict 71-ROI historical partition; 4/71 correct"
+    },
+    {
+      "file": "phase14_case_confusion_matrix.png",
+      "source_path": "07_Results/phase14_roi_categorical_baseline/case_confusion_matrix.png",
+      "sha256": "a2f47a6b44f83658e8e28227087f06945dd5a24a98ff635bc4c45df6087a5217",
+      "caption": "Strict 44-case-ID historical partition; 2/44 correct"
+    },
+    {
+      "file": "phase14_training_curves.png",
+      "source_path": "07_Results/phase14_roi_categorical_baseline/training_curves.png",
+      "sha256": "70f60b885121a7a8b1b79e8b2a32bea5c49053a59a7727af72559b24cab44ab2",
+      "caption": "Archived training curves of strict classical ROI CNN"
+    },
+    {
+      "file": "fig_04_extension_fixed_maps_color.svg",
+      "source_path": "09_Output_images/README/fig_04_extension_fixed_maps_color.svg",
+      "sha256": "19915db8a63af385bba29e70684a18c61d2e466dcf5cc25591f7b1bd27011969",
+      "caption": "Fixed 64-D maps, 203 development case IDs"
+    },
+    {
+      "file": "fig_05_extension_preprocessing_color.svg",
+      "source_path": "09_Output_images/README/fig_05_extension_preprocessing_color.svg",
+      "sha256": "57a17be4c325759e243cbbd085c371ce136d81384aaff814ba8241eaf1e9b1ff",
+      "caption": "Development-only preprocessing sensitivity"
+    },
+    {
+      "file": "fig_06_extension_padding_logloss_color.svg",
+      "source_path": "09_Output_images/README/fig_06_extension_padding_logloss_color.svg",
+      "sha256": "f7f8eff6201df78eb0ec870d81b87c8c36716e2f362ad03da898877e69f385c7",
+      "caption": "Padding area vs exploratory log-loss; not a proven causal relationship"
+    },
+    {
+      "file": "fig_07_extension_fusion_ci_color.svg",
+      "source_path": "09_Output_images/README/fig_07_extension_fusion_ci_color.svg",
+      "sha256": "631639fb5927c8fcef08fc99278012ed46f10a715085239b463d32abb7d48187",
+      "caption": "Exploratory image-versus-fusion paired comparisons"
+    },
+    {
+      "file": "fig_09_sixclass_ovr_roc_color.svg",
+      "source_path": "09_Output_images/README/fig_09_sixclass_ovr_roc_color.svg",
+      "sha256": "63f7377aa3da73ef203e3005ca9a190af9e3c524d49f5fbd776266ca23e1e1a1",
+      "caption": "Six-class one-vs-rest ROC on development OOF cases, not binary diagnosis"
+    },
+    {
+      "file": "fig_10_classwise_sensitivity_color.svg",
+      "source_path": "09_Output_images/README/fig_10_classwise_sensitivity_color.svg",
+      "sha256": "bb9fcd4921144aebedace98dd52f46ad3abf8ec1c924f376bb8de70a5b042105",
+      "caption": "Classwise recall highlights TI-RADS 3 failures"
+    },
+    {
+      "file": "fig_11_model_pipeline_comparison_color.svg",
+      "source_path": "09_Output_images/README/fig_11_model_pipeline_comparison_color.svg",
+      "sha256": "f11fb625e6b7dac332bb744c88178aba333aea44e36bdbe253bf076de63e316e",
+      "caption": "Distinct Phase 9, Phase 14 and later extension model paths"
+    },
+    {
+      "file": "fig_12_multiclass_calibration_color.svg",
+      "source_path": "09_Output_images/README/fig_12_multiclass_calibration_color.svg",
+      "sha256": "e25bedf683530b605aaf35c88e0ab3940ff7277e297a2b6dd1d6af7a6ce7cdb7",
+      "caption": "Descriptive multiclass probability diagnostics; no clinical calibration claim"
+    }
+  ]
+}

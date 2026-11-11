@@ -1,4 +1,4 @@
-"""Pure, dependency-free aggregate metric calculations for panel what-if demonstrations.
+"""Pure, dependency-free aggregate metric calculations for metric sensitivity analysis.
 
 This module does not access research data or train classifiers.
 """

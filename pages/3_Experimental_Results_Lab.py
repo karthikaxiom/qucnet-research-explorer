@@ -46,17 +46,38 @@ def chart_style(fig, height=380):
 
 
 def heatmap(matrix, names, heading):
-    fig = go.Figure(go.Heatmap(z=matrix, x=names, y=names,
-        colorscale=[[0, "#192335"], [.5, "#287DA8"], [1, "#B1E4F0"]],
-        showscale=True, colorbar=dict(title="Count"),
-        hovertemplate="Actual %{y}<br>Predicted %{x}<br>Count %{z}<extra></extra>"))
-    for row, line in enumerate(matrix):
-        for col, count in enumerate(line):
-            fig.add_annotation(x=names[col], y=names[row], text=str(count),
-                               showarrow=False, font=dict(color="white", size=14))
-    fig.update_layout(title=heading, xaxis_title="Predicted", yaxis_title="Actual",
-                      yaxis=dict(autorange="reversed"))
-    return chart_style(fig, 385 if len(names) == 6 else 315)
+    """One count per matrix cell, positioned by stable numeric grid indices."""
+    n = len(names)
+    if len(matrix) != n or any(len(row) != n for row in matrix):
+        raise ValueError("Confusion matrix dimensions do not match the class labels")
+    positions = list(range(n))
+    hover_labels = [
+        [[names[row], names[col]] for col in positions]
+        for row in positions
+    ]
+    fig = go.Figure(go.Heatmap(
+        z=matrix,
+        x=positions,
+        y=positions,
+        customdata=hover_labels,
+        colorscale=[[0, "#172238"], [0.5, "#1F6689"], [1, "#3D90B4"]],
+        texttemplate="%{z}",
+        textfont=dict(color="white", size=14),
+        showscale=True,
+        colorbar=dict(title="Count"),
+        hovertemplate=(
+            "Actual %{customdata[0]}<br>"
+            "Predicted %{customdata[1]}<br>"
+            "Count %{z}<extra></extra>"
+        ),
+    ))
+    fig.update_layout(
+        title=heading,
+        xaxis=dict(title="Predicted", tickmode="array", tickvals=positions, ticktext=names),
+        yaxis=dict(title="Actual", tickmode="array", tickvals=positions,
+                   ticktext=names, autorange="reversed"),
+    )
+    return chart_style(fig, 385 if n == 6 else 315)
 
 
 def source_link(path, label):
@@ -74,6 +95,8 @@ sha = prov["source_commit"]
 if sha != extension["source_commit"]:
     st.error("Research source commit disagreement; results not displayed.")
     st.stop()
+
+from src.evidence.visual_enhancements import render_binary_provenance, render_additional_gallery
 
 st.title("Experimental Results Laboratory")
 st.caption("Measured historical evidence · development-only classifier studies · transparent mathematical what-if experiments")
@@ -108,9 +131,10 @@ with t_binary:
         source_link("07_Results/phase16_binary_qucnet_evaluation/binary_evaluation_metrics.json", "Inspect original binary metrics")
 
     st.divider()
-    st.subheader("Panel experiment · What if some errors were corrected?")
-    st.warning("Hypothetical metric calculator — NOT a new model evaluation or experimentally observed accuracy. The original 31 low-suspicion and 39 high-suspicion support counts remain fixed.")
-    st.caption("Change the number of errors while preserving the original 70-image class distribution. Reset the two sliders to 25 and 7 to recover the archived results.")
+    render_binary_provenance(st, ROOT, sha)
+    st.subheader("Metric sensitivity analysis · changes in error counts")
+    st.warning("Illustrative calculation, not an experimental result. The recorded class totals remain fixed at 31 low-suspicion and 39 high-suspicion images; only the assumed error counts change.")
+    st.caption("Adjust assumed false-positive and false-negative counts to examine their effect on metrics. Values of 25 and 7 reproduce the archived confusion matrix.")
     left,right = st.columns(2)
     with left:
         fp = st.slider("False positives (out of 31 low-suspicion images)", 0, 31, 25,
@@ -129,7 +153,7 @@ with t_binary:
     st.plotly_chart(heatmap([[hypothetical.tn, fp], [fn, hypothetical.tp]],
                             ["Low suspicion", "High suspicion"], "Hypothetical scenario — not a saved prediction"),
                     width="stretch")
-    st.caption(f"Calculated F1: {percentage(h['f1'])}. This experiment teaches how count changes affect metrics; it does not imply that the model can achieve this result.")
+    st.caption(f"Calculated F1: {percentage(h['f1'])}. These are arithmetic scenarios, not additional model predictions or evidence of improved performance.")
 
 with t_six:
     six = historical["six_class_historical"]
@@ -279,6 +303,8 @@ with t_figs:
             manifest=load("assets/figures/figure_manifest.json")
             for entry in manifest["figures"]:
                 st.markdown(f"- [{entry['source_path']}]({REPO}/blob/{sha}/{entry['source_path']}) — SHA-256 `{entry['sha256'][:12]}`")
+
+    render_additional_gallery(st, ROOT, sha)
 
 st.divider()
 st.caption(f"Source commit: {sha[:12]} · Archival evidence only · No patient-level predictions or clinical diagnostic claims")
